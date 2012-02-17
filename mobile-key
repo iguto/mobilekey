@@ -1,0 +1,64 @@
+#!/usr/bin/env ruby
+# -*- coding: utf-8 -*-
+
+usage = <<"EOS"
+USAGE: mobile-key <push-key-str>
+ 携帯入力
+ '-' 区切りで、携帯のキー入力を数字で表現したものを渡す。
+EOS
+
+SEP=['-']
+
+def count_same(str)
+  count = 0
+  first = str[0]
+  str.each_char do |ch|
+    count += 1  if ch == first
+  end
+  count
+end
+
+def mobile_keytabile(num)
+  if num == "2"
+    return "a"
+  elsif num == "3"
+    return "c"
+  elsif num == "4"
+    return "g"
+  elsif num == "5"
+    return "j"
+  elsif num == "6"
+    return "m"
+  elsif num == "7"
+    return "p"
+  elsif num == "8"
+    return "t"
+  elsif num == "9"
+    return "w"
+  end
+end
+
+def num2alpha(num)
+  base = mobile_keytabile(num[0])
+  repeat = count_same(num)
+  (repeat-1).times do 
+    base.next!
+  end
+  base
+end
+
+## main
+
+tmp = ARGV.shift
+unless tmp
+  tmp = STDIN.read
+end
+
+str = tmp.dup.chomp
+nums = str.split(SEP.first)
+ret = ""
+nums.each do |e|
+  ret << num2alpha(e)
+end
+
+puts ret
